@@ -34,7 +34,7 @@ func NewMenuServiceClient(cc grpc1.ClientConnInterface) MenuServiceClient {
 
 func (c *menuServiceClient) GetMenu(ctx context.Context, in *GetMenuRequest, opts ...grpc.CallOption) (*GetMenuResponse, error) {
 	out := new(GetMenuResponse)
-	err := c.cc.Invoke(ctx, "/erda.msp.menu.MenuService/GetMenu", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/erda.msp.tenant.menu.MenuService/GetMenu", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (c *menuServiceClient) GetMenu(ctx context.Context, in *GetMenuRequest, opt
 
 func (c *menuServiceClient) GetSetting(ctx context.Context, in *GetSettingRequest, opts ...grpc.CallOption) (*GetSettingResponse, error) {
 	out := new(GetSettingResponse)
-	err := c.cc.Invoke(ctx, "/erda.msp.menu.MenuService/GetSetting", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/erda.msp.tenant.menu.MenuService/GetSetting", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func RegisterMenuServiceServer(s grpc1.ServiceRegistrar, srv MenuServiceServer, 
 }
 
 var _MenuService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "erda.msp.menu.MenuService",
+	ServiceName: "erda.msp.tenant.menu.MenuService",
 	HandlerType: (*MenuServiceServer)(nil),
 	Methods:     []grpc.MethodDesc{},
 	Streams:     []grpc.StreamDesc{},
@@ -92,7 +92,7 @@ func _get_MenuService_serviceDesc(srv MenuServiceServer, opts ...grpc1.HandleOpt
 	}
 	var _MenuService_GetMenu_info transport.ServiceInfo
 	if h.Interceptor != nil {
-		_MenuService_GetMenu_info = transport.NewServiceInfo("erda.msp.menu.MenuService", "GetMenu", srv)
+		_MenuService_GetMenu_info = transport.NewServiceInfo("erda.msp.tenant.menu.MenuService", "GetMenu", srv)
 		_MenuService_GetMenu_Handler = h.Interceptor(_MenuService_GetMenu_Handler)
 	}
 
@@ -101,7 +101,7 @@ func _get_MenuService_serviceDesc(srv MenuServiceServer, opts ...grpc1.HandleOpt
 	}
 	var _MenuService_GetSetting_info transport.ServiceInfo
 	if h.Interceptor != nil {
-		_MenuService_GetSetting_info = transport.NewServiceInfo("erda.msp.menu.MenuService", "GetSetting", srv)
+		_MenuService_GetSetting_info = transport.NewServiceInfo("erda.msp.tenant.menu.MenuService", "GetSetting", srv)
 		_MenuService_GetSetting_Handler = h.Interceptor(_MenuService_GetSetting_Handler)
 	}
 
@@ -125,7 +125,7 @@ func _get_MenuService_serviceDesc(srv MenuServiceServer, opts ...grpc1.HandleOpt
 				}
 				info := &grpc.UnaryServerInfo{
 					Server:     srv,
-					FullMethod: "/erda.msp.menu.MenuService/GetMenu",
+					FullMethod: "/erda.msp.tenant.menu.MenuService/GetMenu",
 				}
 				return interceptor(ctx, in, info, _MenuService_GetMenu_Handler)
 			},
@@ -148,7 +148,7 @@ func _get_MenuService_serviceDesc(srv MenuServiceServer, opts ...grpc1.HandleOpt
 				}
 				info := &grpc.UnaryServerInfo{
 					Server:     srv,
-					FullMethod: "/erda.msp.menu.MenuService/GetSetting",
+					FullMethod: "/erda.msp.tenant.menu.MenuService/GetSetting",
 				}
 				return interceptor(ctx, in, info, _MenuService_GetSetting_Handler)
 			},

@@ -7,14 +7,14 @@ import (
 	fmt "fmt"
 	servicehub "github.com/erda-project/erda-infra/base/servicehub"
 	grpc "github.com/erda-project/erda-infra/pkg/transport/grpc"
-	pb "github.com/erda-project/erda-proto-go/msp/menu/pb"
+	pb "github.com/erda-project/erda-proto-go/msp/tenant/menu/pb"
 	grpc1 "google.golang.org/grpc"
 	reflect "reflect"
 	strings "strings"
 )
 
 var dependencies = []string{
-	"grpc-client@erda.msp.menu",
+	"grpc-client@erda.msp.tenant.menu",
 	"grpc-client",
 }
 
@@ -53,11 +53,11 @@ func (p *provider) Provide(ctx servicehub.DependencyContext, args ...interface{}
 		}
 	}
 	switch ctx.Service() {
-	case "erda.msp.menu-client":
+	case "erda.msp.tenant.menu-client":
 		return p.client
-	case "erda.msp.menu.MenuService":
+	case "erda.msp.tenant.menu.MenuService":
 		return &menuServiceWrapper{client: p.client.MenuService(), opts: opts}
-	case "erda.msp.menu.MenuService.client":
+	case "erda.msp.tenant.menu.MenuService.client":
 		return p.client.MenuService()
 	}
 	switch ctx.Type() {
@@ -72,10 +72,10 @@ func (p *provider) Provide(ctx servicehub.DependencyContext, args ...interface{}
 }
 
 func init() {
-	servicehub.Register("erda.msp.menu-client", &servicehub.Spec{
+	servicehub.Register("erda.msp.tenant.menu-client", &servicehub.Spec{
 		Services: []string{
-			"erda.msp.menu.MenuService",
-			"erda.msp.menu-client",
+			"erda.msp.tenant.menu.MenuService",
+			"erda.msp.tenant.menu-client",
 		},
 		Types: []reflect.Type{
 			clientsType,

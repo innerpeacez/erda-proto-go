@@ -21,7 +21,7 @@ func RegisterMenuServiceImp(regester transport.Register, srv MenuServiceServer, 
 // ServiceNames return all service names
 func ServiceNames(svr ...string) []string {
 	return append(svr,
-		"erda.msp.menu.MenuService",
+		"erda.msp.tenant.menu.MenuService",
 	)
 }
 

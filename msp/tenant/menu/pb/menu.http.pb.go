@@ -20,7 +20,7 @@ const _ = http.SupportPackageIsVersion1
 
 // MenuServiceHandler is the server API for MenuService service.
 type MenuServiceHandler interface {
-	// GET /api/msp/menu/{tenantGroup}
+	// GET /api/msp/tenant/menu
 	GetMenu(context.Context, *GetMenuRequest) (*GetMenuResponse, error)
 	// GET /api/msp/setting/{tenantGroup}
 	GetSetting(context.Context, *GetSettingRequest) (*GetSettingResponse, error)
@@ -51,12 +51,9 @@ func RegisterMenuServiceHandler(r http.Router, srv MenuServiceHandler, opts ...h
 		}
 		var GetMenu_info transport.ServiceInfo
 		if h.Interceptor != nil {
-			GetMenu_info = transport.NewServiceInfo("erda.msp.menu.MenuService", "GetMenu", srv)
+			GetMenu_info = transport.NewServiceInfo("erda.msp.tenant.menu.MenuService", "GetMenu", srv)
 			handler = h.Interceptor(handler)
 		}
-		compiler, _ := httprule.Parse(path)
-		temp := compiler.Compile()
-		pattern, _ := runtime.NewPattern(httprule.SupportPackageIsVersion1, temp.OpCodes, temp.Pool, temp.Verb)
 		r.Add(method, path, encodeFunc(
 			func(w http1.ResponseWriter, r *http1.Request) (interface{}, error) {
 				var in GetMenuRequest
@@ -67,26 +64,6 @@ func RegisterMenuServiceHandler(r http.Router, srv MenuServiceHandler, opts ...h
 				if u, ok := (input).(urlenc.URLValuesUnmarshaler); ok {
 					if err := u.UnmarshalURLValues("", r.URL.Query()); err != nil {
 						return nil, err
-					}
-				}
-				path := r.URL.Path
-				if len(path) > 0 {
-					components := strings.Split(path[1:], "/")
-					last := len(components) - 1
-					var verb string
-					if idx := strings.LastIndex(components[last], ":"); idx >= 0 {
-						c := components[last]
-						components[last], verb = c[:idx], c[idx+1:]
-					}
-					vars, err := pattern.Match(components, verb)
-					if err != nil {
-						return nil, err
-					}
-					for k, val := range vars {
-						switch k {
-						case "tenantGroup":
-							in.TenantGroup = val
-						}
 					}
 				}
 				ctx := http.WithRequest(r.Context(), r)
@@ -109,7 +86,7 @@ func RegisterMenuServiceHandler(r http.Router, srv MenuServiceHandler, opts ...h
 		}
 		var GetSetting_info transport.ServiceInfo
 		if h.Interceptor != nil {
-			GetSetting_info = transport.NewServiceInfo("erda.msp.menu.MenuService", "GetSetting", srv)
+			GetSetting_info = transport.NewServiceInfo("erda.msp.tenant.menu.MenuService", "GetSetting", srv)
 			handler = h.Interceptor(handler)
 		}
 		compiler, _ := httprule.Parse(path)
@@ -161,6 +138,6 @@ func RegisterMenuServiceHandler(r http.Router, srv MenuServiceHandler, opts ...h
 		)
 	}
 
-	add_GetMenu("GET", "/api/msp/menu/{tenantGroup}", srv.GetMenu)
+	add_GetMenu("GET", "/api/msp/tenant/menu", srv.GetMenu)
 	add_GetSetting("GET", "/api/msp/setting/{tenantGroup}", srv.GetSetting)
 }
